@@ -1,0 +1,103 @@
+.Department {
+    font-size : 50px;
+    font-family : "Times New Roman", sans-serif;
+    font-weight : bold;
+    text-align : center;
+    margin-top : 30px;
+}
+.RowTitles {
+    display : flex;
+}
+.RowTitles2 {
+    display : flex;
+}
+.Wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.SearchOption {
+    margin-left : 30px;
+    margin-top : 30px;
+    border-width : 2px 2px 0 2px;
+    border-style : solid;
+    border-color : black;
+    width : 300px;
+    height : 32px;
+    border-radius : 10px 10px 0 0;
+
+    font-size : 25px;
+    font-family: "Times New Roman", sans-serif;
+    text-align : center;
+}
+.DateScroller {
+    margin-left : 30px;
+    border-style : solid;
+    border-width : 0 2px 2px 2px;
+    border-color : black;
+    border-radius : 0 0 10px 10px;
+    width : 300px;
+    height : 170px;
+    text-align: center;
+}
+.CustomerTitle {
+    width : fit-content;
+    margin: 20px 270px 10px;
+    text-align : center;
+    font-size : 29px;
+    font-family: "Times New Roman", sans-serif;
+    color : gray;
+    font-weight: bold;
+}
+.CircularChart {
+    margin-left : 40px;
+    border-style : solid;
+    border-width : 2px;
+    border-color : black;
+    border-radius : 10px;
+    width : 700px;
+    height : 350px;
+    text-align: center;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.CircularChart h2 {
+    margin: 10px 0;
+}
+.CircularChart p {
+    margin: 10px 0 0;
+    font-size: 18px;
+    color: gray;
+}
+.Comments {
+    margin-left : 30px;
+    border-style : solid;
+    border-width : 2px;
+    border-color : black;
+    border-radius : 10px;
+    width : 300px;
+    height : 590px;
+    text-align: center;
+}
+.CommentsTitle {
+    width : fit-content;
+    margin : 28px 20px 0;
+    text-align : center;
+    font-size : 23px;
+    font-family: "Times New Roman", sans-serif;
+    color : gray;
+    font-weight: bold;
+}
+.CustomerExperience {
+    margin-left : 40px;
+    border-style : solid;
+    border-width : 2px;
+    border-color : black;
+    border-radius : 10px;
+    width : 700px;
+    height : 215px;
+    text-align: center;
+
+    font-size : 20px;
+    font-family : "Times New Roman", sans-serif;
+}

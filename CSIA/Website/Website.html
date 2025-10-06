@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Feedback Report : 911 Department KAUST </title>
+    <link href="Style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class = "Department"> Feedback for 911 Department </div>
+    <div class = "RowTitles">
+        <div class = "SearchOption"> Filter by Year and Month </div>
+        <div class = "CustomerTitle"> Customer Experience </div>
+        <div class = "CommentsTitle"> What Customers say </div>
+    </div>
+    <div class = "RowTitles2">
+        <div class="DateScroller"></div>
+        <div class="Wrapper">
+            <div class="CircularChart">
+                <h2>Customer Experience</h2>
+                <canvas id="gaugeChart"></canvas>
+                <p>Total Feedback</p>
+                <h1>6941</h1>
+                <h2>96%</h2></div>
+            <div class="CustomerExperience"> Customer experience by last months </div>
+        </div>
+        <div class="Comments"></div>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('gaugeChart').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    data: [96, 4],
+                    backgroundColor: ['green', 'red'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                circumference: 180,
+                rotation: -90,
+                cutout: '70%',
+            }
+        });
+    </script>
+</body>
+</html>
