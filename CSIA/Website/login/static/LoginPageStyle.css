@@ -28,3 +28,10 @@ button {
     display : block;
     margin : 40px auto 0 auto;
 }
+textarea {
+    font-size : 23px;
+}
+.Message {
+    color : red;
+    margin-top : 10px;
+}
