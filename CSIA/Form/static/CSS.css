@@ -75,3 +75,8 @@ button {
 button {
     background : royalblue;
 }
+
+.Message {
+    color : red;
+    font-size: 30px;
+}

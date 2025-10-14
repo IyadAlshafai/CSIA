@@ -9,7 +9,8 @@
 <body>
     <div class="form-container">
         <h1>911 Department Feedback Form</h1>
-        <form action = "/CSIA/Form/Insert.py" method="POST">
+        <form action = "/insert" method="POST">
+            <!-- creating the form and the questions to be answered -->
             <div class="form-section">
                 <label class = "text">Rating (1-10)</label>
                 <input type="number" name="rating" min="1" max="10" placeholder="1-10" required>
@@ -29,7 +30,7 @@
                 <label class = "text">Extra Comments</label>
                 <textarea name="comments" placeholder="Your feedback here..."></textarea>
             </div>
-
+            <!-- the submit button of the form -->
             <button type="submit">Submit</button>
         </form>
     </div>

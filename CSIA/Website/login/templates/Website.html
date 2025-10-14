@@ -1,47 +1,93 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title> Feedback Report : 911 Department KAUST </title>
     <link href="../static/Style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
+    <!-- This is the information collected from the database to be displayed -->
     <div class = "Department"> Feedback for 911 Department </div>
     <div class = "RowTitles">
         <div class = "SearchOption"> Filter by Year and Month </div>
         <div class = "CustomerTitle"> Customer Experience </div>
         <div class = "CommentsTitle"> What Customers say </div>
     </div>
+    <!-- creating the unique shapes (the doughnut chart, the date scroller -->
     <div class = "RowTitles2">
         <div class="DateScroller"></div>
         <div class="Wrapper">
             <div class="CircularChart">
                 <h2>Customer Experience</h2>
+                <p class = "totalText">Total Feedback</p>
+                <h2></h2></div>
                 <canvas id="gaugeChart"></canvas>
-                <p>Total Feedback</p>
-                <h1>6941</h1>
-                <h2>96%</h2></div>
-            <div class="CustomerExperience"> Customer experience by last months </div>
+                <div class="CustomerExperience"> Customer experience by last months </div>
         </div>
         <div class="Comments"></div>
     </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script>
+        // Directly use the Flask variable as a number
+        const overall = {{ overall | default(0) }};
+
+        // Convert to percentage for the doughnut (0–100)
+        const overallPercent = Math.min(Math.max((overall / 10) * 100, 0), 100);
+
         const ctx = document.getElementById('gaugeChart').getContext('2d');
 
+        // Needle plugin
+        const gaugeNeedle = {
+            id: 'gaugeNeedle',
+            afterDatasetDraw(chart, args, options) {
+                const { ctx, chartArea: { width, height } } = chart;
+                const angle = Math.PI + (Math.PI * (overallPercent / 100));
+                ctx.save();
+                ctx.translate(width / 2, height);
+                ctx.rotate(angle);
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(0, -height * 0.75);
+                ctx.lineWidth = 3;
+                ctx.strokeStyle = 'black';
+                ctx.stroke();
+                ctx.restore();
+
+                // Center circle
+                ctx.beginPath();
+                ctx.arc(width / 2, height, 6, 0, Math.PI * 2);
+                ctx.fillStyle = 'black';
+                ctx.fill();
+
+                // Display value
+                ctx.font = 'bold 22px "Times New Roman"';
+                ctx.fillStyle = 'black';
+                ctx.textAlign = 'center';
+                ctx.fillText(overall.toFixed(1) + '/10', width / 2, height - 20);
+            }
+        };
+
+        // Create the doughnut chart
         new Chart(ctx, {
             type: 'doughnut',
             data: {
                 datasets: [{
-                    data: [96, 4],
-                    backgroundColor: ['green', 'red'],
+                    data: [overallPercent, 100 - overallPercent],
+                    backgroundColor: overall === 0 ? ['gray', 'lightgray'] : ['green', 'lightgray'],
                     borderWidth: 0
                 }]
             },
             options: {
-                circumference: 180,
                 rotation: -90,
+                circumference: 180,
                 cutout: '70%',
-            }
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { enabled: false }
+                }
+            },
+            plugins: [gaugeNeedle]
         });
     </script>
 </body>
