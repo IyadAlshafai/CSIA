@@ -22,6 +22,7 @@ def login():
     # Sends them back to the first page
     return render_template("LoginPageFront.html", error=error)
 
+
 # this is essential for the app to run
 if __name__ == "__main__":
     app.run(debug=True)

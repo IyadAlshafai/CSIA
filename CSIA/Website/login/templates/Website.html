@@ -28,10 +28,10 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script>
         // Directly use the Flask variable as a number
-        const overall = {{ overall | default(0) }};
+        const overall2 = {{overall|tojson}}
 
         // Convert to percentage for the doughnut (0–100)
-        const overallPercent = Math.min(Math.max((overall / 10) * 100, 0), 100);
+        const overallPercent = Math.min(Math.max((overall2 / 10) * 100, 0), 100);
 
         const ctx = document.getElementById('gaugeChart').getContext('2d');
 
@@ -62,7 +62,7 @@
                 ctx.font = 'bold 22px "Times New Roman"';
                 ctx.fillStyle = 'black';
                 ctx.textAlign = 'center';
-                ctx.fillText(overall.toFixed(1) + '/10', width / 2, height - 20);
+                ctx.fillText(overall2.toFixed(1) + '/10', width / 2, height - 20);
             }
         };
 
@@ -72,7 +72,7 @@
             data: {
                 datasets: [{
                     data: [overallPercent, 100 - overallPercent],
-                    backgroundColor: overall === 0 ? ['gray', 'lightgray'] : ['green', 'lightgray'],
+                    backgroundColor: overall2 === 0 ? ['gray', 'lightgray'] : ['green', 'lightgray'],
                     borderWidth: 0
                 }]
             },

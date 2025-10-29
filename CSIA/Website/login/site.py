@@ -22,12 +22,14 @@ def index():
                 overall_avg = round(result[0], 2)
             else:
                 overall_avg = 0  # default value
+            print(overall_avg)
+            print(type(overall_avg))
         cnx.close()
 
     except pymysql.Error as e:
         return f"Database error: {e}"
 
-    return render_template('Website.html', overall=overall_avg)
+    return render_template('Website.html', overall=float(overall_avg or 0))
 
 
 if __name__ == '__main__':

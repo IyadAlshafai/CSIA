@@ -1,0 +1,18 @@
+<h2>Submit Feedback</h2>
+    <form method = "POST">
+        <label>Name:</label><br>
+        <input type="text" name="name"><br><br>
+        <label>Message:</label><br>
+        <textarea name="message"></textarea><br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+
+
+        justify-content : space-between;
+
+
+plugins: {
+                    legend: { display: false },
+                    tooltip: { enabled: false }
+                }
