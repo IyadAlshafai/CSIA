@@ -34,7 +34,6 @@ def filter_data():
                 result = cursor.fetchone()
                 overall = result[0] if result and result[0] else 0
             else:
-                # No filter → show all
                 cursor.execute("SELECT Feedback_text FROM Feedback;")
                 feedback_list = [row[0] for row in cursor.fetchall()]
 

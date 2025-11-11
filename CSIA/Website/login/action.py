@@ -1,29 +1,92 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
+import pymysql
 
-app = Flask(__name__)
-# this is the information that needs to be entered to access the feedback
+app = Flask(__name__, template_folder='templates')
+
+# --------------------------
+# LOGIN CONFIGURATION
+# --------------------------
 VALID_USERNAME = "s@gmail.com"
 VALID_PASSWORD = "123456789"
 
-
+# --------------------------
+# LOGIN ROUTE
+# --------------------------
 @app.route("/", methods=["GET", "POST"])
 def login():
     error = None
     if request.method == "POST":
-        # Collecting the information from what is inserted
         username = request.form["email"]
         password = request.form["password"]
-        # Comparing it to the valid information given
+
         if username == VALID_USERNAME and password == VALID_PASSWORD:
-            return render_template("Website.html", error=error)
+            # Redirect to feedback dashboard after successful login
+            return redirect(url_for("feedback_dashboard"))
         else:
-            # Doesn't let the user through unless they get it correct
             error = "Invalid username or password."
-    # Sends them back to the first page
     return render_template("LoginPageFront.html", error=error)
 
+# --------------------------
+# FEEDBACK DASHBOARD ROUTE
+# --------------------------
+@app.route("/website", methods=["GET"])
+def feedback_dashboard():
+    # Get filter values from URL
+    year = request.args.get("year", type=int)
+    month = request.args.get("month", type=int)
 
-# this is essential for the app to run
+    try:
+        # Connect to MySQL
+        cnx = pymysql.connect(
+            host="localhost",
+            user="root",
+            password="root",
+            database="Feedback_Database",
+            port=8889
+        )
+
+        with cnx.cursor() as cursor:
+            if year and month:
+                # Filtered query by year and month
+                cursor.execute("""
+                    SELECT Feedback_text FROM Feedback
+                    WHERE YEAR(created_at) = %s AND MONTH(created_at) = %s;
+                """, (year, month))
+                feedback_list = [row[0] for row in cursor.fetchall()]
+
+                cursor.execute("""
+                    SELECT AVG(Overall_Rating) FROM Feedback
+                    WHERE YEAR(created_at) = %s AND MONTH(created_at) = %s;
+                """, (year, month))
+                result = cursor.fetchone()
+                overall = result[0] if result and result[0] else 0
+            else:
+                # Show all feedback if no filter is applied
+                cursor.execute("SELECT Feedback_text FROM Feedback;")
+                feedback_list = [row[0] for row in cursor.fetchall()]
+
+                cursor.execute("SELECT AVG(Overall_Rating) FROM Feedback;")
+                result = cursor.fetchone()
+                overall = result[0] if result and result[0] else 0
+
+        cnx.close()
+
+        # Convert overall rating to percentage for chart display
+        overallpercent = overall * 10
+        overallp = f"{overallpercent:.0f}%"
+
+        return render_template(
+            "Website.html",
+            overall=overall,
+            comment=feedback_list,
+            percent=overallp
+        )
+
+    except pymysql.Error as e:
+        return f"Database error: {e}"
+
+# --------------------------
+# MAIN APP RUNNER
+# --------------------------
 if __name__ == "__main__":
     app.run(debug=True)
-
