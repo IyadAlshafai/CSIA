@@ -3,15 +3,10 @@ import pymysql
 
 app = Flask(__name__, template_folder='templates')
 
-# --------------------------
-# LOGIN CONFIGURATION
-# --------------------------
 VALID_USERNAME = "s@gmail.com"
 VALID_PASSWORD = "123456789"
 
-# --------------------------
-# LOGIN ROUTE
-# --------------------------
+
 @app.route("/", methods=["GET", "POST"])
 def login():
     error = None
@@ -26,9 +21,6 @@ def login():
             error = "Invalid username or password."
     return render_template("LoginPageFront.html", error=error)
 
-# --------------------------
-# FEEDBACK DASHBOARD ROUTE
-# --------------------------
 @app.route("/website", methods=["GET"])
 def feedback_dashboard():
     # Get filter values from URL
@@ -85,8 +77,5 @@ def feedback_dashboard():
     except pymysql.Error as e:
         return f"Database error: {e}"
 
-# --------------------------
-# MAIN APP RUNNER
-# --------------------------
 if __name__ == "__main__":
     app.run(debug=True)
